@@ -24,7 +24,7 @@ class Shop:
         available_products = self.get_products()
         lines = available_products.splitlines()  # Разделяем строки
         for line in lines:
-            name = line.split(',')[0].strip()  # Получаем имя продукта - первая позиция,разделитель запятая
+            name = line.split(', ')[0].strip()  # Получаем имя продукта - первая позиция,разделитель запятая
             product_names.append(name)
 
         for product in products:

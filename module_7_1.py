@@ -12,28 +12,27 @@ class Shop:
     def __init__(self):
         self.__file_name = 'products.txt'
 
-    def get_products(self):
-        file = open(self.__file_name, 'r', encoding='utf-8')
-        content = file.read()
-        file.close()
-        return content
+        def get_products(self):
+        try:
+            with open(self.__file_name, 'r') as file:
+                products = file.read()
+            return products
+        except FileNotFoundError:
+            return "Файл не найден."
 
-    def add(self, *products):
-        product_names = []
-
-        available_products = self.get_products()
-        lines = available_products.splitlines()  # Разделяем строки
-        for line in lines:
-            name = line.split(', ')[0].strip()  # Получаем имя продукта - первая позиция,разделитель запятая
-            product_names.append(name)
+        def add(self, *products):
+        existing_products = self.get_products().splitlines()\
+                            if self.get_products() != "Файл не найден."\
+                            else []
+        existing_product_name = {product.split(', ')[0] for product in existing_products}
 
         for product in products:
-            if product.name in product_names:
+            if product.name in existing_product_name:
                 print(f'Продукт {product.name} уже есть в магазине')
             else:
-                file = open(self.__file_name, 'a', encoding='utf-8')
-                file.write(str(product) + '\n')
-                file.close()
+                with open(self.__file_name, 'a') as file:
+                    file.write(str(product) + '\n')
+                print(f'Продукт {product.name} добавлен в магазин')
 
 
 s1 = Shop()
